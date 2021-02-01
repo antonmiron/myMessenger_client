@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">MyMessenger</string>
+
+    <!--Common strings (START)-->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="you">You</string>
+    <!--Common strings (END) -->
+
+
+    <!-- Start Fragment (START) -->
+    <string name="start_et_hint_serverAddress">Server address</string>
+    <string name="start_et_hint_serverPort">Port</string>
+    <string name="start_et_hint_userName">Your name</string>
+    <string name="start_et_hint_password">Password</string>
+    <string name="start_btn_connect">Connect</string>
+
+    <string name="start_et_error_serverAddress">Wrong IP Address format!</string>
+    <string name="start_et_error_serverPort">Min 1, Max 65535!</string>
+    <string name="start_et_error_userName">The user name must be at least 3 characters long!</string>
+    <string name="start_et_error_password">The password can`t be empty!</string>
+    <!-- Start Fragment (END) -->
+
+    <!--Chat Fragment (START) -->
+    <string name="chat_et_hint_message">Message</string>
+    <string name="chat_tv_infoMessageUserJoin">User %s joined the chat</string>
+    <string name="chat_tv_infoMessageUserLeft">User %s left the chat</string>
+
+    <!--dialog logout (start) -->
+    <string name="dialog_chat_logout_title">Logout</string>
+    <string name="dialog_chat_logout_message">Logout from application?</string>
+    <!--dialog logout (end) -->
+    <!--Chat Fragment (END) -->
+
+    <!--Errors (start)-->
+    <string name="error_something_went_wrong">Something went wrong</string>
+    <string name="error_connection_timeout">Connection timeout</string>
+    <string name="error_password_not_accepted">Invalid password</string>
+    <string name="error_name_not_accepted">The name has an incorrect format or is already used by someone</string>
+    <!--Errors (end)-->
+
+    <!--Notifications (start)-->
+    <string name="notification_channel_description">Message notification channel</string>
+    <string name="notification_reply_message_label">Type message</string>
+    <string name="notification_reply_message_button">Reply</string>
+    <!--Notifications (end)-->
+</resources>

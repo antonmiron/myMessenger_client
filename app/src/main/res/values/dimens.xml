@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_margin">@dimen/size16</dimen>
+
+    <!-- Text Size Patterns -->
+    <dimen name="small">11sp</dimen>
+
+    <!-- Size Patterns -->
+    <dimen name="size0">0dp</dimen>
+    <dimen name="size8">8dp</dimen>
+    <dimen name="size16">16dp</dimen>
+    <dimen name="size24">24dp</dimen>
+    <dimen name="size32">32dp</dimen>
+    <dimen name="size40">40dp</dimen>
+    <dimen name="size48">48dp</dimen>
+    <dimen name="size56">56dp</dimen>
+    <dimen name="size64">64dp</dimen>
+    <dimen name="size72">72dp</dimen>
+    <dimen name="size80">80dp</dimen>
+    <dimen name="size88">88dp</dimen>
+    <dimen name="size96">96dp</dimen>
+    <dimen name="size104">104dp</dimen>
+    <dimen name="size112">112dp</dimen>
+    <dimen name="size120">120dp</dimen>
+    <dimen name="size128">128dp</dimen>
+    <dimen name="size136">136dp</dimen>
+    <dimen name="size144">144dp</dimen>
+    <dimen name="size152">152dp</dimen>
+    <dimen name="size160">160dp</dimen>
+    <dimen name="size168">168dp</dimen>
+    <dimen name="size176">176dp</dimen>
+    <dimen name="size184">184dp</dimen>
+    <dimen name="size192">192dp</dimen>
+    <dimen name="size200">200dp</dimen>
+
+</resources>

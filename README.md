@@ -7,6 +7,8 @@
 Улучшенная версия [клиента](https://github.com/antonmiron/Simple-Messenger-Client).
 Приложение полностью переписано на kotlin, исправлено много недочетов, улучшен UX.
 
+Сервер для клиента: https://github.com/antonmiron/myMessenger_server
+
 ## Список исправлений (улучшений)
 - [x] Переписано на Kotlin, с использованием Single Activity architecture
 - [x] Исправлена навигация в приложении (Android navigation component)

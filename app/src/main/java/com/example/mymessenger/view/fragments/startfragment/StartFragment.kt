@@ -1,7 +1,8 @@
-package com.example.mymessenger.screens.startscreen
+package com.example.mymessenger.view.fragments.startfragment
 
 
 import android.animation.ValueAnimator
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,16 +14,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.mymessenger.R
-import com.example.mymessenger.screens.BaseFragment
-import com.example.mymessenger.screens.startscreen.models.ConnectionCredentialData
-import com.example.mymessenger.screens.startscreen.models.ConnectionStatus
+import com.example.mymessenger.view.fragments.BaseFragment
+import com.example.mymessenger.view.fragments.startfragment.models.ConnectionCredentialData
+import com.example.mymessenger.view.fragments.startfragment.models.ConnectionStatus
 import com.example.mymessenger.tools.validators.ConnectionCredentialValidator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_start.*
+import javax.inject.Inject
 
 
-class StartFragment : BaseFragment<StartViewModel>() {
-    override var vm: StartViewModel? = null
+class StartFragment : BaseFragment() {
+    @Inject
+    lateinit var vm: StartViewModel
     private var isConnectButtonClicked: Boolean? = null
 
     private val serverAddressTextWatcher = object : TextWatcher {
@@ -83,12 +86,15 @@ class StartFragment : BaseFragment<StartViewModel>() {
         messageRes?.let { showSnackbarMessage(it, Snackbar.LENGTH_LONG, 0) }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        vm = ViewModelProviders.of(this).get(StartViewModel::class.java)
 
         return inflater.inflate(R.layout.fragment_start, container, false)
     }
@@ -96,11 +102,11 @@ class StartFragment : BaseFragment<StartViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm?.connectionManager?.connectionState?.observe(
+        vm.connectionManager.connectionState.observe(
             viewLifecycleOwner,
             connectionStatusObserver
         )
-        vm?.connectionManager?.connectionStateError?.observe(
+        vm.connectionManager.connectionStateError.observe(
             viewLifecycleOwner,
             connectionErrorObserver
         )
@@ -119,8 +125,8 @@ class StartFragment : BaseFragment<StartViewModel>() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        vm?.connectionManager?.connectionState?.removeObserver(connectionStatusObserver)
-        vm?.connectionManager?.connectionStateError?.removeObserver(connectionErrorObserver)
+        vm.connectionManager.connectionState.removeObserver(connectionStatusObserver)
+        vm.connectionManager.connectionStateError.removeObserver(connectionErrorObserver)
     }
 
     /**
@@ -228,7 +234,7 @@ class StartFragment : BaseFragment<StartViewModel>() {
             getHeaderLoadingAnimator(1000).apply {
                 doOnEnd {
                     progressBarConnection.visibility = View.VISIBLE
-                    vm?.onClickConnect(connectionData)
+                    vm.onClickConnect(connectionData)
                 }
                 start()
             }
@@ -259,4 +265,10 @@ class StartFragment : BaseFragment<StartViewModel>() {
         }
     }
 
+    override fun initSubComponent() {
+        mainActivity.activitySubComponent
+            .startFragmentSubComponentFactory()
+            .create(this)
+            .inject(this)
+    }
 }

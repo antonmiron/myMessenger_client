@@ -1,4 +1,4 @@
-package com.example.mymessenger.screens.chatscreen
+package com.example.mymessenger.view.fragments.chatfragment
 
 import android.view.LayoutInflater
 import android.view.View

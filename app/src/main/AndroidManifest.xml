@@ -10,10 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name="com.example.mymessenger.App"
+        android:name="com.example.mymessenger.view.app.App"
         android:theme="@style/AppTheme">
         <service android:name=".services.NotificationReplyService"/>
-        <activity android:name="com.example.mymessenger.MainActivity"
+        <activity android:name="com.example.mymessenger.view.activity.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTop">
             <intent-filter>

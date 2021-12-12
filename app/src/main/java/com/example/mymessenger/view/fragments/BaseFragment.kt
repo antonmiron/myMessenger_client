@@ -1,17 +1,15 @@
-package com.example.mymessenger.screens
+package com.example.mymessenger.view.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment
-import com.example.mymessenger.MainActivity
-import com.google.android.material.snackbar.Snackbar
+import com.example.mymessenger.view.activity.MainActivity
+import com.example.mymessenger.viewmodel.BaseViewModel
 
-abstract class BaseFragment<VM_TYPE : BaseViewModel> : Fragment() {
-    protected abstract var vm: VM_TYPE?
+abstract class BaseFragment : Fragment() {
     val mainActivity: MainActivity
         get() {
             val mActivity = activity as? MainActivity
@@ -23,6 +21,11 @@ abstract class BaseFragment<VM_TYPE : BaseViewModel> : Fragment() {
     private val keyboardStateObserver = Observer<Boolean>{ isOpen:Boolean?->
         if(isOpen == true) keyboardOpened()
         else keyboardClosed()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        initSubComponent()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,6 +40,7 @@ abstract class BaseFragment<VM_TYPE : BaseViewModel> : Fragment() {
 
     open fun keyboardOpened(){}
     open fun keyboardClosed(){}
+    abstract fun initSubComponent()
 
     fun hideKeyboardIfOpen(){
         mainActivity.hideKeyboardIfOpen()

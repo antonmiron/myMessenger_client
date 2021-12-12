@@ -10,7 +10,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
 import androidx.core.app.RemoteInput
-import com.example.mymessenger.MainActivity
+import com.example.mymessenger.view.activity.MainActivity
 import com.example.mymessenger.R
 import com.example.mymessenger.network.models.Message
 import com.example.mymessenger.services.NotificationReplyService

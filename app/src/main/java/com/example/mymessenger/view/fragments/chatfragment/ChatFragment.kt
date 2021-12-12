@@ -1,8 +1,7 @@
-package com.example.mymessenger.screens.chatscreen
+package com.example.mymessenger.view.fragments.chatfragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,16 +13,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymessenger.R
 import com.example.mymessenger.network.models.Message
-import com.example.mymessenger.screens.BaseFragment
-import com.example.mymessenger.screens.startscreen.models.ConnectionStatus
+import com.example.mymessenger.view.fragments.BaseFragment
+import com.example.mymessenger.view.fragments.startfragment.models.ConnectionStatus
 import com.example.mymessenger.services.NotificationReplyService
 import com.example.mymessenger.tools.customobserver.SimpleObserver
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_chat.*
+import javax.inject.Inject
 
 
-class ChatFragment : BaseFragment<ChatViewModel>() {
-    override var vm: ChatViewModel? = null
+class ChatFragment : BaseFragment() {
+    @Inject
+    lateinit var vm: ChatViewModel
 
 
     private val dialogLogout by lazy { createLogOutDialog() }
@@ -34,7 +35,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             ConnectionStatus.CONNECTING -> {}
             ConnectionStatus.DISCONNECTED -> {
                 activity?.stopService(Intent(activity, NotificationReplyService::class.java))
-                vm?.messageManager?.release()
+                vm.messageManager.release()
                 findNavController().navigate(R.id.action_chatFragment_to_startFragment)
             }
         }
@@ -48,7 +49,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
     }
 
     private val chatAdapter by lazy {
-        ChatAdapter(vm?.getCurrentUserName())
+        ChatAdapter(vm.getCurrentUserName())
     }
     private val chatLinearLayoutManager by lazy {
         ChatLinearLayoutManager(
@@ -62,7 +63,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        vm = ViewModelProviders.of(this).get(ChatViewModel::class.java)
 
         return inflater.inflate(R.layout.fragment_chat, container, false)
     }
@@ -71,7 +71,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainActivity.setSupportActionBar(toolbar)
-        vm?.connectionManager?.connectionState?.observe(viewLifecycleOwner, connectionStatusObserver)
+        vm.connectionManager.connectionState.observe(viewLifecycleOwner, connectionStatusObserver)
 
         btnExit.setOnClickListener { dialogLogout.show() }
         with(rvChatMessages) {
@@ -91,7 +91,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             layoutManager = chatLinearLayoutManager
         }
 
-        vm?.messageManager?.let{
+        vm.messageManager.let{
             chatAdapter.addNewMessages(it.messageCacheList)
             it.newMessageObservable.addObserver(chatMessagesListObserver)
         }
@@ -100,7 +100,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             val message = etTextMessage.text?.toString()
             if(message.isNullOrBlank()) return@setEndIconOnClickListener
 
-            vm?.sendMessage(message)
+            vm.sendMessage(message)
             etTextMessage.text?.clear()
         }
     }
@@ -111,7 +111,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         return MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.dialog_chat_logout_title)
             .setMessage(R.string.dialog_chat_logout_message)
-            .setPositiveButton(R.string.ok){ dialog, _ -> vm?.logout(); dialog.dismiss()}
+            .setPositiveButton(R.string.ok){ dialog, _ -> vm.logout(); dialog.dismiss()}
             .setNegativeButton(R.string.cancel){ dialog, _ -> dialog.dismiss() }
             .create()
     }
@@ -121,8 +121,15 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         //prevent leaking
         mainActivity.setSupportActionBar(null)
 
-        vm?.connectionManager?.connectionState?.removeObserver(connectionStatusObserver)
-        vm?.messageManager?.newMessageObservable?.deleteObserver(chatMessagesListObserver)
+        vm.connectionManager.connectionState.removeObserver(connectionStatusObserver)
+        vm.messageManager.newMessageObservable.deleteObserver(chatMessagesListObserver)
         super.onDestroyView()
+    }
+
+    override fun initSubComponent() {
+        mainActivity.activitySubComponent
+            .chatFragmentSubComponentFactory()
+            .create(this)
+            .inject(this)
     }
 }

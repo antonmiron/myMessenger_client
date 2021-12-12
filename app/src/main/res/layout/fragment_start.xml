@@ -6,7 +6,7 @@
     android:id="@+id/layoutRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.startscreen.StartFragment">
+    tools:context=".view.fragments.startfragment.StartFragment">
 
     <FrameLayout
         android:id="@+id/layoutHeader"

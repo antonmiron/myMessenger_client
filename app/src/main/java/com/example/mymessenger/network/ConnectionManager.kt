@@ -8,12 +8,13 @@ import android.os.Handler
 import android.os.Looper
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
-import com.example.mymessenger.App
+import com.example.mymessenger.view.app.App
 import com.example.mymessenger.R
+import com.example.mymessenger.di.app.AppScope
 import com.example.mymessenger.network.models.Message
 import com.example.mymessenger.network.models.MessageType.*
-import com.example.mymessenger.screens.startscreen.models.ConnectionCredentialData
-import com.example.mymessenger.screens.startscreen.models.ConnectionStatus
+import com.example.mymessenger.view.fragments.startfragment.models.ConnectionCredentialData
+import com.example.mymessenger.view.fragments.startfragment.models.ConnectionStatus
 import com.example.mymessenger.tools.customobserver.SimpleObserver
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.*
@@ -24,9 +25,8 @@ import java.io.ObjectOutputStream
 import java.net.InetSocketAddress
 import java.net.Socket
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@AppScope
 class ConnectionManager @Inject constructor(private val messageManager: MessageManager) {
     private var socket: Socket? = null
     private var connectDisposable: Disposable? = null

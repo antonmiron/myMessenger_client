@@ -1,8 +1,7 @@
-package com.example.mymessenger
+package com.example.mymessenger.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -10,23 +9,25 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
+import com.example.mymessenger.R
+import com.example.mymessenger.di.activity.ActivitySubComponent
+import com.example.mymessenger.di.fragments.startfragment.StartFragmentSubComponent
 import com.example.mymessenger.network.ConnectionManager
 import com.example.mymessenger.network.MessageManager
 import com.example.mymessenger.network.models.Message
 import com.example.mymessenger.network.models.MessageType
 import com.example.mymessenger.tools.NotificationHelper
 import com.example.mymessenger.tools.customobserver.SimpleObserver
+import com.example.mymessenger.view.app.App
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
-
     val isKeyboardOpenLiveData = MutableLiveData<Boolean>(false)
     private var notificationHelper: NotificationHelper? = null
+    lateinit var activitySubComponent: ActivitySubComponent
+
 
     private val newMessageNotificationObserver = object:SimpleObserver<Message>(){
         override fun onUpdate(value: Message?) {
@@ -50,14 +51,11 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var messageManager: MessageManager
 
-    init {
-        App.dependencyInjectorComponent.inject(this)
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initSubComponent()
 
         notificationHelper = NotificationHelper(this)
         messageManager.newMessageObservable.addObserver(newMessageNotificationObserver)
@@ -129,6 +127,12 @@ class MainActivity : AppCompatActivity() {
      * */
     fun showSnackbarMessage(@StringRes messageResId: Int, duration: Int, topMargin: Int){
         createSnackbar(layoutCoordinator, messageResId, duration, topMargin).show()
+    }
+
+    private fun initSubComponent(){
+        activitySubComponent = App.appComponent.activitySubComponentFactory()
+            .create()
+            .apply { inject(this@MainActivity) }
     }
 
     override fun onDestroy() {

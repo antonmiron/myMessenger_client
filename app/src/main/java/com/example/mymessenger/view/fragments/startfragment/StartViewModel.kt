@@ -1,33 +1,24 @@
-package com.example.mymessenger.screens.startscreen
+package com.example.mymessenger.view.fragments.startfragment
 
-import com.example.mymessenger.App
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.mymessenger.network.ConnectionManager
 import com.example.mymessenger.network.MessageManager
 import com.example.mymessenger.network.models.Message
 import com.example.mymessenger.network.models.MessageType
-import com.example.mymessenger.screens.BaseViewModel
-import com.example.mymessenger.screens.startscreen.models.ConnectionCredentialData
+import com.example.mymessenger.viewmodel.BaseViewModel
+import com.example.mymessenger.view.fragments.startfragment.models.ConnectionCredentialData
 import com.example.mymessenger.tools.customobserver.SimpleObserver
-import javax.inject.Inject
 
-class StartViewModel : BaseViewModel() {
-
-    @Inject
-    lateinit var connectionManager: ConnectionManager
-
-    @Inject
-    lateinit var messageManager: MessageManager
+class StartViewModel(
+    val connectionManager: ConnectionManager,
+    val messageManager: MessageManager) : BaseViewModel() {
 
     /**
      * Use for catch the server login requests
      * @see createMessageManagerObserver
      * */
     private var messageManagerObserver: SimpleObserver<Message>? = null
-
-
-    init {
-        App.dependencyInjectorComponent.inject(this)
-    }
 
 
     fun onClickConnect(connectionCredentialData: ConnectionCredentialData) {
@@ -82,4 +73,12 @@ class StartViewModel : BaseViewModel() {
         }
     }
 
+    class Factory(
+        private val connectionManager: ConnectionManager,
+        private val messageManager: MessageManager
+    ): ViewModelProvider.Factory{
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return StartViewModel(connectionManager, messageManager) as T
+        }
+    }
 }

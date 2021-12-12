@@ -1,8 +1,8 @@
-package com.example.mymessenger
+package com.example.mymessenger.view.app
 
 import android.app.Application
-import com.example.mymessenger.tools.di.DaggerDependencyInjectorComponent
-import com.example.mymessenger.tools.di.DependencyInjectorComponent
+import com.example.mymessenger.di.app.AppComponent
+import com.example.mymessenger.di.app.DaggerAppComponent
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 
 class App: Application() {
@@ -12,14 +12,14 @@ class App: Application() {
         RxJavaPlugins.setErrorHandler{}
 
         instance = this
-        dependencyInjectorComponent = DaggerDependencyInjectorComponent.create()
+        appComponent = DaggerAppComponent.factory().create().apply { inject(this@App) }
     }
 
     companion object{
         lateinit var instance: App
             private set
 
-        lateinit var dependencyInjectorComponent: DependencyInjectorComponent
+        lateinit var appComponent: AppComponent
             private set
     }
 }

@@ -1,4 +1,4 @@
-package com.example.mymessenger.screens.chatscreen
+package com.example.mymessenger.view.fragments.chatfragment
 
 import android.content.Context
 import android.util.AttributeSet

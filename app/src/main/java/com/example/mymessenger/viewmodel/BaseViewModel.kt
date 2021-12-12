@@ -1,4 +1,4 @@
-package com.example.mymessenger.screens
+package com.example.mymessenger.viewmodel
 
 
 import androidx.lifecycle.ViewModel

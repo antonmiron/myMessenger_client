@@ -1,21 +1,17 @@
-package com.example.mymessenger.screens.chatscreen
+package com.example.mymessenger.view.fragments.chatfragment
 
 
-import com.example.mymessenger.App
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.mymessenger.network.ConnectionManager
 import com.example.mymessenger.network.MessageManager
-import com.example.mymessenger.screens.BaseViewModel
+import com.example.mymessenger.viewmodel.BaseViewModel
 import javax.inject.Inject
 
-class ChatViewModel: BaseViewModel() {
-    @Inject
-    lateinit var connectionManager: ConnectionManager
-    @Inject
-    lateinit var messageManager: MessageManager
-
-    init {
-        App.dependencyInjectorComponent.inject(this)
-    }
+class ChatViewModel(
+    val connectionManager: ConnectionManager,
+    val messageManager: MessageManager
+): BaseViewModel() {
 
     /**
      * @return current user name
@@ -34,5 +30,14 @@ class ChatViewModel: BaseViewModel() {
 
     fun logout(){
         connectionManager.disconnect()
+    }
+
+    class Factory(
+        private val connectionManager: ConnectionManager,
+        private val messageManager: MessageManager
+    ): ViewModelProvider.Factory{
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return ChatViewModel(connectionManager, messageManager) as T
+        }
     }
 }

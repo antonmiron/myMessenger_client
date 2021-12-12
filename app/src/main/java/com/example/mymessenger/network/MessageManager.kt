@@ -1,6 +1,7 @@
 package com.example.mymessenger.network
 
 
+import com.example.mymessenger.di.app.AppScope
 import com.example.mymessenger.network.models.Message
 import com.example.mymessenger.network.models.MessageType.*
 import com.example.mymessenger.tools.customobserver.BaseObservable
@@ -21,7 +22,7 @@ import java.util.concurrent.LinkedBlockingQueue
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+@AppScope
 class MessageManager @Inject constructor() {
     private var inputDisposable: Disposable? = null
     private var outputDisposable: Disposable? = null
